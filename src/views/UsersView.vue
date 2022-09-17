@@ -1,5 +1,5 @@
 <template>
-  <h1>Blog users</h1>
+  <h1>Пользователи блога</h1>
   <div class="usersContainer">
     <ol class="userBox">
       <!-- <div class="userBox" > -->
@@ -18,6 +18,7 @@
 import { ref } from "@vue/reactivity";
 import { useRouter } from "vue-router";
 import User from "../components/User.vue";
+import { fetchData } from "@/options";
 export default {
   name: "users-page",
   components: {
@@ -26,12 +27,8 @@ export default {
   setup() {
     const router = useRouter();
     const users = ref({});
-    getUsers(users);
-    function getUsers(output) {
-      fetch("https://jsonplaceholder.typicode.com/users")
-        .then((response) => response.json())
-        .then((result) => (output.value = result));
-    }
+    const PATH_TO_USERS = "https://jsonplaceholder.typicode.com/users";
+    fetchData(PATH_TO_USERS, users);
 
     function goToPerson(id) {
       router.push("/user/" + id);

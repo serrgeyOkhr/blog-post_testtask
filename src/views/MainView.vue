@@ -1,45 +1,34 @@
 <template>
   <h1>Placeholder Blog</h1>
   <div class="blogContainer">
-    <div v-for="(post, index) in posts" :key="index" class="blog_link">
-      <PostVue :postData="post" />
+    <div class="posts_container">
+      <Post v-for="(post, index) in posts" :key="index" :postData="post" />
     </div>
   </div>
 </template>
 
 <script>
 import { ref } from "@vue/reactivity";
-import PostVue from "@/components/Post.vue";
+import Post from "@/components/Post.vue";
+import { fetchData } from "@/options";
 export default {
   name: "main-page",
   components: {
-    PostVue,
+    Post,
   },
   setup() {
     const posts = ref([]);
-    getPosts(posts);
+    const PATH_TO_POSTS = "https://jsonplaceholder.typicode.com/posts";
+    fetchData(PATH_TO_POSTS, posts);
 
-    function getPosts(output) {
-      fetch("https://jsonplaceholder.typicode.com/posts")
-        .then((response) => response.json())
-        .then((result) => (output.value = result));
-    }
     return { posts };
   },
 };
 </script>
 
 <style>
-.blogContainer {
+.posts_container {
   display: flex;
   flex-wrap: wrap;
-}
-.blog_link {
-  width: 50%;
-}
-@media screen and (max-width: 1100px) {
-  .blog_link {
-    width: 100%;
-  }
 }
 </style>
