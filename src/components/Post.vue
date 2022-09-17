@@ -4,19 +4,17 @@
       <div class="imgPreloader" v-if="randomImg === ''"></div>
       <img v-else :src="randomImg" alt="" />
     </div>
-    <!-- <img src="https://picsum.photos/400/300" alt="" /> -->
-    <!-- <pre>{{ randomImg }}</pre> -->
     <div class="blog_info">
       <h3 class="blog_title">{{ post.title }}</h3>
-      <button @click="openPost(post.id)">Читать...</button>
+      <button class="btn" @click="openPost(post.id)">Перейти</button>
     </div>
-    <!-- <p>{{ post.body }}</p> -->
   </div>
 </template>
 
 <script>
 import { ref, toRef } from "@vue/reactivity";
 import { useRouter } from "vue-router";
+import { capitalizeFirsLetter } from "@/options";
 export default {
   name: "post-component",
   props: {
@@ -38,12 +36,8 @@ export default {
       );
     }
 
-    function capitalizeFirsLetter(string) {
-      return string[0].toUpperCase() + string.slice(1);
-    }
-
     function openPost(id) {
-      router.push("post/" + id);
+      router.push("/post/" + id);
     }
     return { post, randomImg, openPost };
   },
@@ -53,8 +47,8 @@ export default {
 <style>
 .blog_body {
   display: flex;
-  /* justify-content: center; */
-  align-items: flex-start;
+  width: calc(50% - 40px);
+  align-items: center;
   border-radius: 15px;
   background-color: rgb(221, 221, 221);
   margin: 10px;
@@ -69,6 +63,7 @@ export default {
 }
 .imgBlok {
   width: 50%;
+  display: flex;
 }
 .imgPreloader {
   display: block;
@@ -77,7 +72,24 @@ export default {
   background-color: #ccc;
 }
 
+.btn {
+  padding: 10px 15px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  border: none;
+  background-color: #fff;
+}
+.btn:hover {
+  background-color: rgb(214, 214, 214);
+}
+
 @media screen and (max-width: 1100px) {
+  .blog_body {
+    width: 100%;
+  }
   .reverse {
     flex-direction: row-reverse;
   }
